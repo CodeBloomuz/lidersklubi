@@ -33,7 +33,13 @@ class Interview(StatesGroup):
 
 @router.message(Command("admin"))
 async def cmd_admin(message: Message, state: FSMContext):
+    log.info(f"Admin urinish: {message.from_user.id} | ADMIN_IDS: {ADMIN_IDS}")
     if not is_admin(message.from_user.id):
+        await message.answer(
+            f"⛔ Sizning ID: <code>{message.from_user.id}</code>\n"
+            f"Admin ro\'yxatida yo\'q.",
+            parse_mode="HTML"
+        )
         return
     await state.clear()
     stats = await db.get_stats()
